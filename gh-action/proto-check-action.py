@@ -1,4 +1,3 @@
-import json
 import click
 
 from schema_registry import *

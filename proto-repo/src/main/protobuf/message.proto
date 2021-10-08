@@ -13,6 +13,5 @@ message Message {
   int64 timestamp = 3;
   double i = 6;
   string vb = 8;
-
-
+  fixed32 f = 11;
 }

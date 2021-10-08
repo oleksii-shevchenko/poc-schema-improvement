@@ -27,7 +27,7 @@ jobs:
         name: List changed files
         uses: jitterbit/get-changed-files@v1
         with:
-          format: 'json'
+          format: 'csv'
       - name: Compatability Check
         run: |
           echo ${{ steps.files.outputs.added_modified }}
