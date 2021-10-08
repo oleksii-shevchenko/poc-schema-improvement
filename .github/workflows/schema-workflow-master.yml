@@ -60,6 +60,6 @@ jobs:
       - name: Publish JAR
         run: |
           ./gradlew proto-repo:publishMavenJavaPublicationToGitHubPackagesRepository \
-            -Pminor.version=${{ env.GITHUB_RUN_ID }} \
-            -Ppatch.version=${{ env.GITHUB_RUN_NUMBER }} \
+            -Pminor.version=$GITHUB_RUN_ID \
+            -Ppatch.version=$GITHUB_RUN_NUMBER \
             -Prelease
