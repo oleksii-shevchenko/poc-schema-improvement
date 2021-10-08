@@ -9,7 +9,7 @@ logging.basicConfig(level=logging.INFO)
 @click.command()
 @click.option('--fail_fast', '--ff', default=True, is_flag=True)
 @click.option('--registry_endpoint', '-r', required=True)
-@click.argument('--files', '-f', required=True)
+@click.option('--files', '-f', required=True)
 def check_schemas_compatability(registry_endpoint, files, fail_fast):
     schema_registry = SchemaRegistry(registry_endpoint)
 
@@ -17,7 +17,7 @@ def check_schemas_compatability(registry_endpoint, files, fail_fast):
     for proto_path in parse_proto_paths(files):
         proto_schema = ProtoSchema(proto_path)
         if schema_registry.compatible_or_register(proto_schema):
-            logging.info("Schema %s passed compatability check", proto_schema.schema_name())
+            logging.info(f"Schema {proto_schema.schema_name()} passed compatability check")
         else:
             passed = False
             if fail_fast:
@@ -30,7 +30,7 @@ def check_schemas_compatability(registry_endpoint, files, fail_fast):
 
 
 def parse_proto_paths(files) -> list:
-    files_list = json.loads(files)
+    files_list = files.split(",")
     files_list = [file for file in files_list if file.endswith('.proto')]
 
     logging.info(f"Found {len(files_list)} changed protobuf schemas")

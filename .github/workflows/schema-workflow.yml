@@ -29,4 +29,6 @@ jobs:
         with:
           format: 'json'
       - name: Compatability Check
-        run: python ./gh-action/proto-check-action.py -r=${{ secrets.SCHEMA_REGISTRY_SECRET }} -f="${{ steps.files.outputs.added_modified }}"
+        run: |
+          echo ${{ steps.files.outputs.added_modified }}
+          python ./gh-action/proto-check-action.py -r ${{ secrets.SCHEMA_REGISTRY_SECRET }} -f ${{ steps.files.outputs.added_modified }}
