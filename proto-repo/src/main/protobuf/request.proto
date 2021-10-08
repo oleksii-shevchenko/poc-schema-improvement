@@ -9,5 +9,5 @@ option java_outer_classname = "SearchRequest";
 
 message Request {
   string query = 1;
-  double i = 2;
+  double d = 3;
 }

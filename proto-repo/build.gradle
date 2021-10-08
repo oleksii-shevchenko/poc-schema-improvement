@@ -33,7 +33,7 @@ sourceSets {
 }
 
 ext.deploymentVersion = {
-    if ("true".equals(System.getenv("CI"))) {
+    if ("true" == System.getenv("CI")) {
         var minorVersion = property("minor.version")
         var patchVersion = property("patch.version")
         var versionType = hasProperty("release") ? "release" : "snapshot"
