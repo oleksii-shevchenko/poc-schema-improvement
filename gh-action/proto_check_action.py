@@ -1,22 +1,22 @@
-import json
+import click
 
 from schema_registry import *
 
 logging.basicConfig(level=logging.INFO)
 
 
-# @click.command()
-# @click.argument('registry_endpoint')
-# @click.argument('fail_fast')
-# @click.argument('files')
+@click.command()
+@click.option('--fail_fast', '--ff', default=True, is_flag=True)
+@click.option('--registry_endpoint', '-r', required=True)
+@click.option('--files', '-f', required=True)
 def check_schemas_compatability(registry_endpoint, files, fail_fast):
-    schema_registry = SchemaRegistry(registry_endpoint, load_credentials())
+    schema_registry = SchemaRegistry(registry_endpoint)
 
     passed = True
     for proto_path in parse_proto_paths(files):
         proto_schema = ProtoSchema(proto_path)
-        if schema_registry.compatible_or_register(proto_schema):
-            logging.info("Schema %s passed compatability check", proto_schema.schema_name())
+        if schema_registry.is_compatible(proto_schema):
+            logging.info(f"Schema {proto_schema.schema_name()} passed compatability check")
         else:
             passed = False
             if fail_fast:
@@ -28,14 +28,8 @@ def check_schemas_compatability(registry_endpoint, files, fail_fast):
         raise Exception("Schema compatability check failed")
 
 
-def load_credentials():
-    with open('credentials.json') as credentials_file:
-        data = json.load(credentials_file)
-        return data["user"], data["key"]
-
-
 def parse_proto_paths(files) -> list:
-    files_list = json.loads(files)
+    files_list = files.split(",")
     files_list = [file for file in files_list if file.endswith('.proto')]
 
     logging.info(f"Found {len(files_list)} changed protobuf schemas")

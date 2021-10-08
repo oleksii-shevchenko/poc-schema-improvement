@@ -8,9 +8,4 @@ option java_package = "dev.flanker";
 option java_outer_classname = "LogMessage";
 
 message Message {
-  double d = 1;
-  int32 id = 2;
-  int64 timestamp = 3;
-  int32 i = 6;
-  string vb = 8;
 }
