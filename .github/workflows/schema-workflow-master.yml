@@ -1,4 +1,4 @@
-name: Protobuf schema check
+name: Protobuf schema deployment
 
 on:
   push:
@@ -6,8 +6,8 @@ on:
       - master
 
 jobs:
-  schema-check:
-    name: Protobuf schema compatability check
+  schema-registration:
+    name: Protobuf schema registration check
 
     runs-on: ubuntu-latest
 
@@ -32,4 +32,32 @@ jobs:
           format: 'csv'
       - name: Compatability Check
         run: |
+          python ./gh-action/proto_check_action.py -r ${{ secrets.SCHEMA_REGISTRY }} -f ${{ steps.files.outputs.added_modified }}
+      - name: Schema registration
+        run: |
           python ./gh-action/proto_register_action.py -r ${{ secrets.SCHEMA_REGISTRY }} -f ${{ steps.files.outputs.added_modified }}
+
+  schema-deployemnt:
+    name: Protobuf Schema Deployemt
+    needs: schema-registration
+
+    runs-on: ubuntu-latest
+
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_ACTOR: ${{ GITHUB_ACTOR }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 16
+        uses: actions/setup-java@v2
+        with:
+          java-version: '16'
+          distribution: 'adopt'
+      - name: Validate Gradle wrapper
+        uses: gradle/wrapper-validation-action@v1
+      - name: Publish JAR
+        run: |
+          ./gradlew proto-repo:publishMavenJavaPublicationToGitHubPackagesRepository \
+            -Pminor.version=${{ GITHUB_RUN_ID }} \
+            -Ppatch.version=${{ GITHUB_RUN_NUMBER }
