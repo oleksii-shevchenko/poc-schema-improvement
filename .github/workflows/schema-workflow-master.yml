@@ -59,4 +59,4 @@ jobs:
         run: |
           ./gradlew proto-repo:publishMavenJavaPublicationToGitHubPackagesRepository \
             -Pminor.version=${{ env.GITHUB_RUN_ID }} \
-            -Ppatch.version=${{ env.GITHUB_RUN_NUMBER }
+            -Ppatch.version=${{ env.GITHUB_RUN_NUMBER }}
