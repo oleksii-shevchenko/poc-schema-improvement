@@ -1,0 +1,12 @@
+// @schema_compatability=FULL_TRANSITIVE
+// @schema_name=search-request-v1
+
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "dev.flanker";
+option java_outer_classname = "SearchRequest";
+
+message SearchRequest {
+  string query = 1;
+}
