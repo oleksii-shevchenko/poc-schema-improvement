@@ -7,6 +7,6 @@ option java_multiple_files = true;
 option java_package = "dev.flanker";
 option java_outer_classname = "SearchRequest";
 
-message SearchRequest {
+message Request {
   string query = 1;
 }

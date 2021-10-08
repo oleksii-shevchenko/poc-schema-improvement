@@ -4,10 +4,12 @@ on:
   push:
     branches:
       - master
+  pull_request:
+
 
 jobs:
   schema-registration:
-    name: Protobuf schema registration check
+    name: Protobuf Schema Registration
 
     runs-on: ubuntu-latest
 
@@ -59,4 +61,5 @@ jobs:
         run: |
           ./gradlew proto-repo:publishMavenJavaPublicationToGitHubPackagesRepository \
             -Pminor.version=${{ env.GITHUB_RUN_ID }} \
-            -Ppatch.version=${{ env.GITHUB_RUN_NUMBER }}
+            -Ppatch.version=${{ env.GITHUB_RUN_NUMBER }} \
+            -Prelease

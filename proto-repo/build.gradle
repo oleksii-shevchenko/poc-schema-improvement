@@ -48,9 +48,13 @@ publishing {
     }
     publications {
         mavenJava(MavenPublication) {
+            var minorVersion = project.property("minor.version")
+            var patchVersion = project.property("patch.version")
+            var versionType = project.hasProperty("release") ? "release" : "snapshot"
+
             groupId = 'dev.flanker'
             artifactId = 'proto-messages'
-            version = "1.${project.property("minor.version")}.${project.property("patch.version")}"
+            version = "1.${minorVersion}.${patchVersion}-${versionType}"
             from components.java
         }
     }
