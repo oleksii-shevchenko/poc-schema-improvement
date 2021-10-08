@@ -1,3 +1,4 @@
 rootProject.name = 'poc-schema-improvement'
 include 'proto-repo'
+include 'package-load'
 
