@@ -1,5 +1,6 @@
 import requests
 import logging
+import os
 from domain import *
 
 logging.basicConfig(level=logging.INFO)
@@ -10,9 +11,13 @@ TRANSITIVE_COMPATABILITY = {Compatability.FULL_TRANSITIVE,
 
 
 class SchemaRegistry:
-    def __init__(self, endpoint, credentials):
+    def __init__(self, endpoint):
         self.endpoint = endpoint
-        self.credentials = credentials
+        self.credentials = SchemaRegistry.__load_credentials()
+
+    @staticmethod
+    def __load_credentials():
+        return os.environ['SCHEMA_REGISTRY_KEY'], os.environ['SCHEMA_REGISTRY_SECRET']
 
     def __get_compatability_versions(self, proto_schema: ProtoSchema) -> list:
         if proto_schema.compatability() in TRANSITIVE_COMPATABILITY:

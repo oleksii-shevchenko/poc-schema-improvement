@@ -1,16 +1,17 @@
 import json
+import click
 
 from schema_registry import *
 
 logging.basicConfig(level=logging.INFO)
 
 
-# @click.command()
-# @click.argument('registry_endpoint')
-# @click.argument('fail_fast')
-# @click.argument('files')
+@click.command()
+@click.option('--fail_fast', '--ff', default=True, is_flag=True)
+@click.option('--registry_endpoint', '-r', required=True)
+@click.argument('--files', '-f', required=True)
 def check_schemas_compatability(registry_endpoint, files, fail_fast):
-    schema_registry = SchemaRegistry(registry_endpoint, load_credentials())
+    schema_registry = SchemaRegistry(registry_endpoint)
 
     passed = True
     for proto_path in parse_proto_paths(files):
@@ -26,12 +27,6 @@ def check_schemas_compatability(registry_endpoint, files, fail_fast):
 
     if not passed:
         raise Exception("Schema compatability check failed")
-
-
-def load_credentials():
-    with open('credentials.json') as credentials_file:
-        data = json.load(credentials_file)
-        return data["user"], data["key"]
 
 
 def parse_proto_paths(files) -> list:
