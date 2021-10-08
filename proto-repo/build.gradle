@@ -56,7 +56,7 @@ publishing {
     }
     publications {
         mavenJava(MavenPublication) {
-            version = project.deploymentVersion()
+            version = project.deploymentVersion
             groupId = 'dev.flanker'
             artifactId = 'proto-messages'
             from components.java
