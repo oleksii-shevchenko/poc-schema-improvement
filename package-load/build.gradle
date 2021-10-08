@@ -1,0 +1,29 @@
+plugins {
+    id 'java'
+}
+
+group 'dev.flanker'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven {
+        name = "GitHubPackages"
+        url = uri("https://maven.pkg.github.com/${project.property("gh.owner")}/${project.property("gh.repo")}")
+        credentials {
+            username System.getenv("GITHUB_ACTOR")
+            password System.getenv("GITHUB_TOKEN")
+        }
+    }
+}
+
+dependencies {
+    implementation 'dev.flanker:proto-messages:1.8.1320344913-release'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+}
+
+test {
+    useJUnitPlatform()
+}
