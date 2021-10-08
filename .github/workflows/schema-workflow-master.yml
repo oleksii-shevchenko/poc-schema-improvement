@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - master
-  pull_request:
 
 
 jobs:
@@ -60,6 +59,6 @@ jobs:
       - name: Publish JAR
         run: |
           ./gradlew proto-repo:publishMavenJavaPublicationToGitHubPackagesRepository \
-            -Pminor.version=$GITHUB_RUN_ID \
-            -Ppatch.version=$GITHUB_RUN_NUMBER \
+            -Pminor.version=$GITHUB_RUN_NUMBER \
+            -Ppatch.version=$GITHUB_RUN_ID \
             -Prelease
