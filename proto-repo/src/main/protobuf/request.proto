@@ -8,6 +8,6 @@ option java_package = "dev.flanker";
 option java_outer_classname = "SearchRequest";
 
 message Request {
-  fixed32 i = 2;
+  int64 i = 2;
   double d = 3;
 }
