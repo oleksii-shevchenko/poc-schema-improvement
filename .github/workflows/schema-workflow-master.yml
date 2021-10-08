@@ -1,7 +1,7 @@
 name: Protobuf schema check
 
 on:
-  pull_request:
+  push:
     branches:
       - master
 
@@ -32,4 +32,4 @@ jobs:
           format: 'csv'
       - name: Compatability Check
         run: |
-          python ./gh-action/proto_check_action.py -r ${{ secrets.SCHEMA_REGISTRY }} -f ${{ steps.files.outputs.added_modified }}
+          python ./gh-action/proto_register_action.py -r ${{ secrets.SCHEMA_REGISTRY }} -f ${{ steps.files.outputs.added_modified }}

@@ -54,7 +54,8 @@ class SchemaRegistry:
         return requests.get(endpoint, auth=self.credentials).status_code == 200
 
     def is_compatible(self, proto_schema: ProtoSchema) -> bool:
-        assert self.is_registered(proto_schema.schema_name())
+        if not self.is_registered(proto_schema.schema_name()):
+            return True
 
         for version in self.__get_compatability_versions(proto_schema):
             if not self.__is_compatible_version(proto_schema, version):
@@ -90,10 +91,3 @@ class SchemaRegistry:
                 raise Exception("Schema Registry Internal Error")
             case _:
                 raise Exception("Unknown Error")
-
-    def compatible_or_register(self, proto_schema: ProtoSchema) -> bool:
-        if self.is_registered(proto_schema.schema_name()):
-            return self.is_compatible(proto_schema)
-        else:
-            self.register(proto_schema)
-            return True

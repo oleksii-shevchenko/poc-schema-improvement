@@ -15,7 +15,7 @@ def check_schemas_compatability(registry_endpoint, files, fail_fast):
     passed = True
     for proto_path in parse_proto_paths(files):
         proto_schema = ProtoSchema(proto_path)
-        if schema_registry.compatible_or_register(proto_schema):
+        if schema_registry.is_compatible(proto_schema):
             logging.info(f"Schema {proto_schema.schema_name()} passed compatability check")
         else:
             passed = False
