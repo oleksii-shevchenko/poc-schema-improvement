@@ -31,4 +31,4 @@ jobs:
       - name: Compatability Check
         run: |
           echo ${{ steps.files.outputs.added_modified }}
-          python ./gh-action/proto-check-action.py -r ${{ secrets.SCHEMA_REGISTRY_SECRET }} -f ${{ steps.files.outputs.added_modified }}
+          python ./gh-action/proto-check-action.py -r ${{ secrets.SCHEMA_REGISTRY }} -f ${{ steps.files.outputs.added_modified }}
