@@ -2,9 +2,6 @@ name: Protobuf schema check
 
 on:
   push:
-    paths:
-      - '**.proto'
-  pull_request:
 
 jobs:
   schema-check:
