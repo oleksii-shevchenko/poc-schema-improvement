@@ -34,9 +34,9 @@ sourceSets {
 
 ext.deploymentVersion = {
     if ("true".equals(System.getenv("CI"))) {
-        var minorVersion = project.property("minor.version") ?: "0"
-        var patchVersion = project.property("patch.version") ?: "0"
-        var versionType = project.hasProperty("release") ? "release" : "snapshot"
+        var minorVersion = property("minor.version")
+        var patchVersion = property("patch.version")
+        var versionType = hasProperty("release") ? "release" : "snapshot"
         retunr "1.${minorVersion}.${patchVersion}-${versionType}"
     } else {
         return "0.0.1-local"
