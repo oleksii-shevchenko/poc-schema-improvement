@@ -4,9 +4,6 @@ plugins {
     id 'maven-publish'
 }
 
-group 'dev.flanker'
-version '1.0-SNAPSHOT'
-
 repositories {
     mavenCentral()
 }
@@ -35,6 +32,17 @@ sourceSets {
     }
 }
 
+ext.deploymentVersion = {
+    if ("true".equals(System.getenv("CI"))) {
+        var minorVersion = project.property("minor.version") ?: "0"
+        var patchVersion = project.property("patch.version") ?: "0"
+        var versionType = project.hasProperty("release") ? "release" : "snapshot"
+        retunr "1.${minorVersion}.${patchVersion}-${versionType}"
+    } else {
+        return "0.0.1-local"
+    }
+}
+
 publishing {
     repositories {
         maven {
@@ -48,16 +56,9 @@ publishing {
     }
     publications {
         mavenJava(MavenPublication) {
-            beforeEvaluate {
-                var minorVersion = project.property("minor.version")
-                var patchVersion = project.property("patch.version")
-                var versionType = project.hasProperty("release") ? "release" : "snapshot"
-                version = "1.${minorVersion}.${patchVersion}-${versionType}"
-            }
-
+            version = project.deploymentVersion()
             groupId = 'dev.flanker'
             artifactId = 'proto-messages'
-
             from components.java
         }
     }
